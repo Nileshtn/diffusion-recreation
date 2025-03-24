@@ -23,7 +23,7 @@ class DownSample(nn.Module):
         self.downsample = nn.Sequential(nn.MaxPool2d(2, 2),
                                         DoubleConv(in_channels, out_channels),
                                         DoubleConv(out_channels , out_channels))   
-        self.linear = nn.Sequential(nn.SiLU(inplace=True),
+        self.linear = nn.Sequential(nn.SiLU(inplace=False),
                                     nn.Linear(time_embedding_dim, out_channels))
                
     def forward(self, x, t):
@@ -40,7 +40,7 @@ class UpSample(nn.Module):
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False)
         self.doubleconv = nn.Sequential(DoubleConv(in_channels, out_channels),
                                         DoubleConv(out_channels , out_channels))   
-        self.linear = nn.Sequential(nn.SiLU(inplace=True),
+        self.linear = nn.Sequential(nn.SiLU(inplace=False),
                                     nn.Linear(time_embedding_dim, out_channels))
                
     def forward(self, x, y, t):
